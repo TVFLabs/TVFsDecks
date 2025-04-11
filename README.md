@@ -9,7 +9,7 @@ Decks:
 - **Joke Deck**: Start with 2 random eternal Jokers
 - **Chiseled Deck**: Cards become Stone when scored
 - **Rainbow Deck**: Applies the effects of all colored decks
-- **Patchwork Deck**: Apllies the effects of all decks from vanilla
+- **Patchwork Deck**: Applies the effects of all decks from vanilla
 
 Notes:
 - A friend suggested the idea for Joke Deck, so credit goes to them for that.
