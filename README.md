@@ -1,6 +1,6 @@
 # TVF's Decks
 
-My first mod for Balatro, with a few decks I thought might be fun
+My first mod for Balatro, with a few decks I thought might be fun. Requires Steamodded.
 
 Decks:
 - **Blank Deck**: No effects
