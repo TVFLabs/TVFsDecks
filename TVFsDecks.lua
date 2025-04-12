@@ -130,44 +130,63 @@ SMODS.Back {
 	end,
 }
 
---[[SMODS.Back {
+SMODS.Back {
 	key = 'riffraff_deck',
 	loc_txt = {
 		name = 'Riff-Raff Deck',
-		text = {'Start with an {C:attention}eternal{} copy', 'of each discovered', '{C:blue}Common{} Joker'}
+		text = {'All base edition {C:blue}Common{}', 'Jokers become {C:dark_edition}Negative{}'}
 	},
 	atlas = 'tvfs_decks_backs_atlas',
 	pos = { x = 7, y = 0 },
 	config = {},
 	unlocked = true,
 	discovered = true,
-	apply = function(self, back)
-		cards_list = {}
-		for k,v in pairs(G.P_CENTERS) do
-			if v.set == "Joker" and v.rarity == 1 and v.discovered and v.eternal_compat then
-				table.insert(cards_list, #cards_list + 1, k)
+	calculate = function(self, back, context)
+		if (context.starting_shop or context.reroll_shop) and G.shop_jokers then
+			if #G.shop_jokers.cards > 0 then
+				for k,v in pairs(G.shop_jokers.cards) do
+					if v.config and v.config.center then
+						if v.config.center.set == 'Joker' and v.config.center.rarity == 1 then
+							if (not v.edition) then
+								v:set_edition({negative = true})
+							end
+						end
+					end
+				end
 			end
 		end
-		table.sort(cards_list, function (a, b) return not G.P_CENTERS[a].order or not G.P_CENTERS[b].order or G.P_CENTERS[a].order < G.P_CENTERS[b].order end)
-		G.E_MANAGER:add_event(Event({func = function()
-			if G.jokers then 
-				G.jokers.config.card_limit = #cards_list
-			end
-		return true end }))
-		
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				for k,v in pairs(cards_list) do
-					local card = SMODS.create_card({set = 'Joker', area = G.jokers, skip_materialize = false, key = v, no_edition = true})
-					card:set_eternal(true)
-					card:add_to_deck()
-					G.jokers:emplace(card)
+		if (context.open_booster) and context.cardarea then
+			G.E_MANAGER:add_event(Event({
+				func = (function()
+					if G.pack_cards and G.pack_cards.cards then
+						print(inspect(G.pack_cards.cards))
+						if #G.pack_cards.cards > 0 then
+							for k,v in pairs(G.pack_cards.cards) do
+								if v.config and v.config.center then
+									if v.config.center.set == 'Joker' and v.config.center.rarity == 1 then
+										if (not v.edition) then
+											v:set_edition({negative = true})
+										end
+									end
+								end
+							end
+							return true
+						end
+					end
+				end)
+			}))
+		end
+		if (context.card_added) and context.card then
+			if context.card.config and context.card.config.center then
+				if context.card.config.center.set == 'Joker' and context.card.config.center.rarity == 1 then
+					if (not context.card.edition) then
+						context.card:set_edition({negative = true})
+					end
 				end
-				return true
 			end
-		}))
+		end
 	end,
-}]]--
+}
 
 SMODS.Back {
 	key = 'soul_deck',

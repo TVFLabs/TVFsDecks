@@ -8,6 +8,7 @@ Decks:
 - **Mult Deck**: +4 chips
 - **Joke Deck**: Start with 2 random eternal Jokers
 - **Chiseled Deck**: Cards become Stone when scored
+- **Riff-Raff Deck**: All base edition Common Jokers become Negative
 - **Soul Deck**: Start with eternal copies of all 5 Legendary Jokers
 - **Rainbow Deck**: Applies the effects of all colored decks
 - **Patchwork Deck**: Applies the effects of all decks from vanilla
