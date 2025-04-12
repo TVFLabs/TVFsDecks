@@ -130,6 +130,72 @@ SMODS.Back {
 	end,
 }
 
+--[[SMODS.Back {
+	key = 'riffraff_deck',
+	loc_txt = {
+		name = 'Riff-Raff Deck',
+		text = {'Start with an {C:attention}eternal{} copy', 'of each discovered', '{C:blue}Common{} Joker'}
+	},
+	atlas = 'tvfs_decks_backs_atlas',
+	pos = { x = 7, y = 0 },
+	config = {},
+	unlocked = true,
+	discovered = true,
+	apply = function(self, back)
+		cards_list = {}
+		for k,v in pairs(G.P_CENTERS) do
+			if v.set == "Joker" and v.rarity == 1 and v.discovered and v.eternal_compat then
+				table.insert(cards_list, #cards_list + 1, k)
+			end
+		end
+		table.sort(cards_list, function (a, b) return not G.P_CENTERS[a].order or not G.P_CENTERS[b].order or G.P_CENTERS[a].order < G.P_CENTERS[b].order end)
+		G.E_MANAGER:add_event(Event({func = function()
+			if G.jokers then 
+				G.jokers.config.card_limit = #cards_list
+			end
+		return true end }))
+		
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				for k,v in pairs(cards_list) do
+					local card = SMODS.create_card({set = 'Joker', area = G.jokers, skip_materialize = false, key = v, no_edition = true})
+					card:set_eternal(true)
+					card:add_to_deck()
+					G.jokers:emplace(card)
+				end
+				return true
+			end
+		}))
+	end,
+}]]--
+
+SMODS.Back {
+	key = 'soul_deck',
+	loc_txt = {
+		name = 'Soul Deck',
+		text = {'Start with {C:attention}eternal{}', 'copies of all 5', '{C:legendary,E:1}Legendary{} Jokers'}
+	},
+	atlas = 'tvfs_decks_backs_atlas',
+	pos = { x = 8, y = 0 },
+	config = {},
+	unlocked = true,
+	discovered = true,
+	apply = function(self, back)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				local cards_list = {'caino', 'triboulet', 'yorick', 'chicot', 'perkeo'}
+				for k,v in pairs(cards_list) do
+					local card = SMODS.create_card({set = 'Joker', area = G.jokers, skip_materialize = true, key = 'j_' .. v, no_edition = true})
+					card:set_eternal(true)
+					card:add_to_deck()
+					G.jokers:emplace(card)
+				end
+				return true
+			end
+		}))
+	end,
+}
+
 SMODS.Back {
 	key = 'rainbow_deck',
 	loc_txt = {
