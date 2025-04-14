@@ -343,7 +343,51 @@ SMODS.Back {
 	end,
 }
 
+SMODS.Back {
+	key = 'purgatory_deck',
+	loc_txt = {
+		name = 'Purgatory Deck',
+		text = {'When {C:attention}Boss Blind{} is', 'defeated, set {C:attention}Ante{} to {C:attention}1{}'}
+	},
+	atlas = 'tvfs_decks_backs_atlas',
+	pos = { x = 9, y = 0 },
+	config = {},
+	unlocked = true,
+	discovered = true,
+	calculate = function(self, back, context)
+		if context.end_of_round and (not (context.individual or context.repetition)) and G.GAME.last_blind and G.GAME.last_blind.boss then
+			if not G.GAME.used_vouchers.v_TVFD_get_out_of_hell_free_voucher then
+				G.E_MANAGER:add_event(Event({
+					func = (function()
+						G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+						ease_ante(-G.GAME.round_resets.blind_ante)
+						G.GAME.round_resets.blind_ante = 0
+						return true
+					end)
+				}))
+			end
+		end
+	end,
+}
 
+SMODS.Voucher {
+	key = "get_out_of_hell_free_voucher",
+	loc_txt = {
+		name = "Get Out of Hell Free",
+		text = {"Disables the effects of", "the {C:attention}Purgatory Deck{}"}
+	},
+	atlas = 'tvfs_decks_backs_atlas',
+	pos = {x=0,y=1},
+	unlocked = true,
+	discovered = false,--false,
+	no_collection = true,
+	in_pool = function(self, args)
+		if G.GAME.selected_back.name == "b_TVFD_purgatory_deck" then
+			return true
+		end
+		return false
+	end,
+}
 
 ----------------------------------------------
 ------------MOD CODE END----------------------

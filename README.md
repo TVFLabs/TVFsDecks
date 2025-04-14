@@ -12,6 +12,7 @@ Decks:
 - **Soul Deck**: Start with eternal copies of all 5 Legendary Jokers
 - **Rainbow Deck**: Applies the effects of all colored decks
 - **Patchwork Deck**: Applies the effects of all decks from vanilla
+- **Purgatory Deck**: When Boss Blind is defeated, set Ante to 1
 
 Notes:
 - A friend suggested the idea for Joke Deck, so credit goes to them for that.
